@@ -64,7 +64,7 @@ flowchart LR
         DOC[Complaint Generator<br/>LLM + PDF]
     end
     subgraph Data
-        DB[(PostgreSQL<br/>~549 road contracts)]
+        DB[(PostgreSQL<br/>road_contracts<br/>goszakup sync)]
         GEO[Nominatim<br/>Reverse geocoding]
     end
     subgraph Infra
@@ -91,7 +91,7 @@ flowchart LR
 | **Backend** | FastAPI + SQLAlchemy + PostgreSQL |
 | **AI/CV** | YOLO26 (Ultralytics) — 5-class defect detection |
 | **Geocoding** | Nominatim (OpenStreetMap) |
-| **Data** | TenderAI procurement DB (~549 road contracts) |
+| **Data** | Kazakhstan public procurement ([ows.goszakup.gov.kz](https://ows.goszakup.gov.kz)) — completed road repair contracts, Almaty/Astana |
 
 ### 5-Class Defect Taxonomy
 
@@ -138,8 +138,8 @@ pip install -r requirements.txt
 # Copy example env and edit with your keys
 cp .env.example .env
 
-# Import road contracts from TenderAI
-python -m ingest.import_from_tenderai
+# Sync road repair contracts from goszakup (requires GOSZAKUP_TOKEN in .env)
+python -m ingest.sync_road_contracts --days 90
 
 # Start server
 uvicorn app.main:app --reload --port 8001
@@ -246,7 +246,7 @@ Built for **GovTech Camp 2026** (Case 3 — free case) as an MVP demonstrating:
 - Warranty accountability for road maintenance where a contract match exists
 - Integration with Kazakhstan's e-Gov infrastructure (e-Otinish)
 
-**MVP scope:** Almaty + Astana coverage, 5 defect classes, 3-tier severity routing, TenderAI procurement data.
+**MVP scope:** Almaty + Astana coverage, 5 defect classes, 3-tier severity routing, goszakup road-repair contract index for warranty matching.
 
 **Known limitations:** Training data is currently RDD2022 Japan+India subset (not all 6 countries) plus external manhole/rutting datasets — no Kazakhstan-specific photos yet. `sunken_manhole` has the least training data (~292 instances) and is the top priority for local field-photo collection. See `SUBMISSION.md` for full validation logic and known limitations.
 
