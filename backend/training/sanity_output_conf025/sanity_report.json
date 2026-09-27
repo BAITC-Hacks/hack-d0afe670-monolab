@@ -1,0 +1,690 @@
+{
+  "weights": "/Users/darkhan/Desktop/talap/backend/runs/detect/training/runs/single_stage/weights/best.pt",
+  "dataset": "/Users/darkhan/Desktop/talap/backend/training/dataset_v1",
+  "conf": 0.25,
+  "samples": 25,
+  "per_class_recall_on_samples": {
+    "pothole": 0.857,
+    "crack_longitudinal": 0.8,
+    "crack_alligator": 1.0,
+    "sunken_manhole": 1.0,
+    "rutting": 0.0
+  },
+  "demo_flag_counts": {
+    "MISS": 6,
+    "CLASS_MISMATCH": 1
+  },
+  "details": [
+    {
+      "image": "training/dataset_v1/images/val/ext_RDD2022_japan_india_India_001893.jpg",
+      "split": "val",
+      "gt": [
+        "pothole"
+      ],
+      "pred": [
+        "crack_alligator",
+        "pothole"
+      ],
+      "severity_tier": "HAZARD_FASTTRACK",
+      "primary_defect": "pothole",
+      "detections": [
+        {
+          "class": "pothole",
+          "conf": 0.7438,
+          "bbox": [
+            224.49537658691406,
+            451.0152587890625,
+            392.7779235839844,
+            691.3400268554688
+          ]
+        },
+        {
+          "class": "crack_alligator",
+          "conf": 0.5074,
+          "bbox": [
+            0.0,
+            558.7351684570312,
+            214.749755859375,
+            720.0
+          ]
+        },
+        {
+          "class": "crack_alligator",
+          "conf": 0.4702,
+          "bbox": [
+            260.72039794921875,
+            556.566162109375,
+            395.4878845214844,
+            681.4324951171875
+          ]
+        }
+      ],
+      "flags": []
+    },
+    {
+      "image": "training/dataset_v1/images/val/ext_RDD2022_japan_india_India_001910.jpg",
+      "split": "val",
+      "gt": [
+        "pothole"
+      ],
+      "pred": [
+        "pothole"
+      ],
+      "severity_tier": "HAZARD_FASTTRACK",
+      "primary_defect": "pothole",
+      "detections": [
+        {
+          "class": "pothole",
+          "conf": 0.6883,
+          "bbox": [
+            485.29412841796875,
+            534.1714477539062,
+            643.5687255859375,
+            720.0
+          ]
+        }
+      ],
+      "flags": []
+    },
+    {
+      "image": "training/dataset_v1/images/val/ext_RDD2022_japan_india_India_001911.jpg",
+      "split": "val",
+      "gt": [
+        "pothole"
+      ],
+      "pred": [
+        "pothole"
+      ],
+      "severity_tier": "HAZARD_FASTTRACK",
+      "primary_defect": "pothole",
+      "detections": [
+        {
+          "class": "pothole",
+          "conf": 0.2568,
+          "bbox": [
+            498.8751525878906,
+            543.40966796875,
+            702.8530883789062,
+            719.8304443359375
+          ]
+        }
+      ],
+      "flags": []
+    },
+    {
+      "image": "training/dataset_v1/images/val/ext_RDD2022_japan_india_India_001912.jpg",
+      "split": "val",
+      "gt": [
+        "pothole"
+      ],
+      "pred": [],
+      "severity_tier": null,
+      "primary_defect": null,
+      "detections": [],
+      "flags": [
+        "MISS: model silent on labeled defect(s)"
+      ]
+    },
+    {
+      "image": "training/dataset_v1/images/val/ext_RDD2022_japan_india_India_001960.jpg",
+      "split": "val",
+      "gt": [
+        "pothole"
+      ],
+      "pred": [
+        "pothole"
+      ],
+      "severity_tier": "HAZARD_FASTTRACK",
+      "primary_defect": "pothole",
+      "detections": [
+        {
+          "class": "pothole",
+          "conf": 0.4868,
+          "bbox": [
+            68.78910827636719,
+            543.36572265625,
+            694.5454711914062,
+            621.31787109375
+          ]
+        }
+      ],
+      "flags": []
+    },
+    {
+      "image": "training/dataset_v1/images/val/ext_RDD2022_japan_india_India_002007.jpg",
+      "split": "val",
+      "gt": [
+        "crack_longitudinal"
+      ],
+      "pred": [
+        "crack_alligator",
+        "crack_longitudinal"
+      ],
+      "severity_tier": "WARRANTY_CLAIM",
+      "primary_defect": "crack_longitudinal",
+      "detections": [
+        {
+          "class": "crack_longitudinal",
+          "conf": 0.7994,
+          "bbox": [
+            338.73553466796875,
+            425.73883056640625,
+            390.26678466796875,
+            572.9953002929688
+          ]
+        },
+        {
+          "class": "crack_alligator",
+          "conf": 0.4511,
+          "bbox": [
+            0.9400005340576172,
+            593.5946044921875,
+            95.5694351196289,
+            720.0
+          ]
+        }
+      ],
+      "flags": []
+    },
+    {
+      "image": "training/dataset_v1/images/val/ext_RDD2022_japan_india_India_002014.jpg",
+      "split": "val",
+      "gt": [
+        "crack_longitudinal"
+      ],
+      "pred": [
+        "crack_longitudinal"
+      ],
+      "severity_tier": "WARRANTY_CLAIM",
+      "primary_defect": "crack_longitudinal",
+      "detections": [
+        {
+          "class": "crack_longitudinal",
+          "conf": 0.2909,
+          "bbox": [
+            124.22481536865234,
+            552.5813598632812,
+            256.5201110839844,
+            720.0
+          ]
+        }
+      ],
+      "flags": []
+    },
+    {
+      "image": "training/dataset_v1/images/val/ext_RDD2022_japan_india_India_002222.jpg",
+      "split": "val",
+      "gt": [
+        "crack_longitudinal"
+      ],
+      "pred": [
+        "crack_longitudinal"
+      ],
+      "severity_tier": "WARRANTY_CLAIM",
+      "primary_defect": "crack_longitudinal",
+      "detections": [
+        {
+          "class": "crack_longitudinal",
+          "conf": 0.7905,
+          "bbox": [
+            424.17767333984375,
+            475.7410888671875,
+            467.9338684082031,
+            583.6849365234375
+          ]
+        }
+      ],
+      "flags": []
+    },
+    {
+      "image": "training/dataset_v1/images/val/ext_RDD2022_japan_india_India_002230.jpg",
+      "split": "val",
+      "gt": [
+        "crack_alligator",
+        "crack_longitudinal"
+      ],
+      "pred": [
+        "crack_alligator",
+        "crack_longitudinal"
+      ],
+      "severity_tier": "WARRANTY_CLAIM",
+      "primary_defect": "crack_alligator",
+      "detections": [
+        {
+          "class": "crack_alligator",
+          "conf": 0.5662,
+          "bbox": [
+            451.1467590332031,
+            583.7582397460938,
+            592.7613525390625,
+            674.6319580078125
+          ]
+        },
+        {
+          "class": "crack_alligator",
+          "conf": 0.3925,
+          "bbox": [
+            510.5597229003906,
+            497.1809997558594,
+            720.0,
+            607.3126220703125
+          ]
+        },
+        {
+          "class": "crack_longitudinal",
+          "conf": 0.2538,
+          "bbox": [
+            365.9614562988281,
+            469.14141845703125,
+            396.70489501953125,
+            572.2472534179688
+          ]
+        }
+      ],
+      "flags": []
+    },
+    {
+      "image": "training/dataset_v1/images/val/ext_RDD2022_japan_india_India_002319.jpg",
+      "split": "val",
+      "gt": [
+        "crack_longitudinal"
+      ],
+      "pred": [
+        "crack_alligator"
+      ],
+      "severity_tier": "WARRANTY_CLAIM",
+      "primary_defect": "crack_alligator",
+      "detections": [
+        {
+          "class": "crack_alligator",
+          "conf": 0.5201,
+          "bbox": [
+            34.75978088378906,
+            388.6195983886719,
+            480.0289306640625,
+            609.513916015625
+          ]
+        }
+      ],
+      "flags": [
+        "CLASS_MISMATCH: detected but wrong class vs label"
+      ]
+    },
+    {
+      "image": "training/dataset_v1/images/val/ext_RDD2022_japan_india_India_001958.jpg",
+      "split": "val",
+      "gt": [
+        "crack_alligator"
+      ],
+      "pred": [
+        "crack_alligator",
+        "pothole"
+      ],
+      "severity_tier": "HAZARD_FASTTRACK",
+      "primary_defect": "pothole",
+      "detections": [
+        {
+          "class": "pothole",
+          "conf": 0.4623,
+          "bbox": [
+            344.4449462890625,
+            501.5860290527344,
+            404.46435546875,
+            718.2810668945312
+          ]
+        },
+        {
+          "class": "crack_alligator",
+          "conf": 0.4588,
+          "bbox": [
+            562.4707641601562,
+            577.0794067382812,
+            720.0,
+            718.9799194335938
+          ]
+        }
+      ],
+      "flags": []
+    },
+    {
+      "image": "training/dataset_v1/images/val/ext_RDD2022_japan_india_India_002025.jpg",
+      "split": "val",
+      "gt": [
+        "crack_alligator"
+      ],
+      "pred": [
+        "crack_alligator",
+        "crack_longitudinal"
+      ],
+      "severity_tier": "WARRANTY_CLAIM",
+      "primary_defect": "crack_longitudinal",
+      "detections": [
+        {
+          "class": "crack_longitudinal",
+          "conf": 0.3292,
+          "bbox": [
+            469.09588623046875,
+            538.7894897460938,
+            720.0,
+            708.5120239257812
+          ]
+        },
+        {
+          "class": "crack_alligator",
+          "conf": 0.2615,
+          "bbox": [
+            104.86616516113281,
+            523.0280151367188,
+            538.081787109375,
+            720.0
+          ]
+        }
+      ],
+      "flags": []
+    },
+    {
+      "image": "training/dataset_v1/images/val/ext_RDD2022_japan_india_India_002031.jpg",
+      "split": "val",
+      "gt": [
+        "crack_alligator",
+        "pothole"
+      ],
+      "pred": [
+        "crack_alligator",
+        "pothole"
+      ],
+      "severity_tier": "HAZARD_FASTTRACK",
+      "primary_defect": "crack_alligator",
+      "detections": [
+        {
+          "class": "crack_alligator",
+          "conf": 0.7128,
+          "bbox": [
+            12.157951354980469,
+            494.6890869140625,
+            658.9859619140625,
+            709.0559692382812
+          ]
+        },
+        {
+          "class": "pothole",
+          "conf": 0.5562,
+          "bbox": [
+            98.45035552978516,
+            596.3842163085938,
+            223.5879364013672,
+            715.6578369140625
+          ]
+        }
+      ],
+      "flags": []
+    },
+    {
+      "image": "training/dataset_v1/images/val/ext_RDD2022_japan_india_India_002082.jpg",
+      "split": "val",
+      "gt": [
+        "crack_alligator"
+      ],
+      "pred": [
+        "crack_alligator"
+      ],
+      "severity_tier": "WARRANTY_CLAIM",
+      "primary_defect": "crack_alligator",
+      "detections": [
+        {
+          "class": "crack_alligator",
+          "conf": 0.2829,
+          "bbox": [
+            7.513240814208984,
+            476.3572998046875,
+            505.39093017578125,
+            669.987060546875
+          ]
+        }
+      ],
+      "flags": []
+    },
+    {
+      "image": "training/dataset_v1/images/val/ext_RDD2022_japan_india_India_002099.jpg",
+      "split": "val",
+      "gt": [
+        "crack_alligator",
+        "pothole"
+      ],
+      "pred": [
+        "crack_alligator",
+        "pothole"
+      ],
+      "severity_tier": "WARRANTY_CLAIM",
+      "primary_defect": "pothole",
+      "detections": [
+        {
+          "class": "pothole",
+          "conf": 0.727,
+          "bbox": [
+            370.4189147949219,
+            496.803466796875,
+            445.7317199707031,
+            578.5294799804688
+          ]
+        },
+        {
+          "class": "crack_alligator",
+          "conf": 0.4504,
+          "bbox": [
+            372.15850830078125,
+            474.06622314453125,
+            720.0,
+            677.0187377929688
+          ]
+        },
+        {
+          "class": "crack_alligator",
+          "conf": 0.2919,
+          "bbox": [
+            92.86248779296875,
+            484.3680419921875,
+            720.0,
+            681.0078125
+          ]
+        }
+      ],
+      "flags": []
+    },
+    {
+      "image": "training/dataset_v1/images/val/ext_roboflow_manhole_dedup_121_jpg.rf.1ee3e59980974ead2c1836cff5344765.jpg",
+      "split": "val",
+      "gt": [
+        "sunken_manhole"
+      ],
+      "pred": [
+        "sunken_manhole"
+      ],
+      "severity_tier": "HAZARD_FASTTRACK",
+      "primary_defect": "sunken_manhole",
+      "detections": [
+        {
+          "class": "sunken_manhole",
+          "conf": 0.5525,
+          "bbox": [
+            227.033447265625,
+            127.37968444824219,
+            346.6115417480469,
+            324.7441711425781
+          ]
+        }
+      ],
+      "flags": []
+    },
+    {
+      "image": "training/dataset_v1/images/val/ext_roboflow_manhole_dedup_124_jpg.rf.467648f332fed9979653c3ebd1c75fa6.jpg",
+      "split": "val",
+      "gt": [
+        "sunken_manhole"
+      ],
+      "pred": [
+        "sunken_manhole"
+      ],
+      "severity_tier": "HAZARD_FASTTRACK",
+      "primary_defect": "sunken_manhole",
+      "detections": [
+        {
+          "class": "sunken_manhole",
+          "conf": 0.3068,
+          "bbox": [
+            142.1778564453125,
+            83.8624038696289,
+            416.0,
+            283.1787414550781
+          ]
+        }
+      ],
+      "flags": []
+    },
+    {
+      "image": "training/dataset_v1/images/val/ext_roboflow_manhole_dedup_125_jpg.rf.0707390a5259dd2893745020d46ac12a.jpg",
+      "split": "val",
+      "gt": [
+        "sunken_manhole"
+      ],
+      "pred": [
+        "sunken_manhole"
+      ],
+      "severity_tier": "HAZARD_FASTTRACK",
+      "primary_defect": "sunken_manhole",
+      "detections": [
+        {
+          "class": "sunken_manhole",
+          "conf": 0.7119,
+          "bbox": [
+            104.06010437011719,
+            89.07205963134766,
+            405.2855529785156,
+            346.9129638671875
+          ]
+        }
+      ],
+      "flags": []
+    },
+    {
+      "image": "training/dataset_v1/images/val/ext_roboflow_manhole_dedup_129_jpg.rf.38687e3f32bcc9acb17654c07c0cec4d.jpg",
+      "split": "val",
+      "gt": [
+        "sunken_manhole"
+      ],
+      "pred": [
+        "sunken_manhole"
+      ],
+      "severity_tier": "HAZARD_FASTTRACK",
+      "primary_defect": "sunken_manhole",
+      "detections": [
+        {
+          "class": "sunken_manhole",
+          "conf": 0.6713,
+          "bbox": [
+            39.553157806396484,
+            0.0,
+            416.0,
+            366.8004150390625
+          ]
+        }
+      ],
+      "flags": []
+    },
+    {
+      "image": "training/dataset_v1/images/val/ext_roboflow_manhole_dedup_144_jpg.rf.0d3a3d7ffe5bc863dfac5a3c2853457f.jpg",
+      "split": "val",
+      "gt": [
+        "sunken_manhole"
+      ],
+      "pred": [
+        "sunken_manhole"
+      ],
+      "severity_tier": "HAZARD_FASTTRACK",
+      "primary_defect": "sunken_manhole",
+      "detections": [
+        {
+          "class": "sunken_manhole",
+          "conf": 0.6278,
+          "bbox": [
+            109.02777862548828,
+            19.66107177734375,
+            307.0137634277344,
+            416.0
+          ]
+        }
+      ],
+      "flags": []
+    },
+    {
+      "image": "training/dataset_v1/images/val/ext_road_rutting_yolo_0003.jpg",
+      "split": "val",
+      "gt": [
+        "rutting"
+      ],
+      "pred": [],
+      "severity_tier": null,
+      "primary_defect": null,
+      "detections": [],
+      "flags": [
+        "MISS: model silent on labeled defect(s)"
+      ]
+    },
+    {
+      "image": "training/dataset_v1/images/val/ext_road_rutting_yolo_0010.jpg",
+      "split": "val",
+      "gt": [
+        "rutting"
+      ],
+      "pred": [],
+      "severity_tier": null,
+      "primary_defect": null,
+      "detections": [],
+      "flags": [
+        "MISS: model silent on labeled defect(s)"
+      ]
+    },
+    {
+      "image": "training/dataset_v1/images/val/ext_road_rutting_yolo_0012.jpg",
+      "split": "val",
+      "gt": [
+        "rutting"
+      ],
+      "pred": [],
+      "severity_tier": null,
+      "primary_defect": null,
+      "detections": [],
+      "flags": [
+        "MISS: model silent on labeled defect(s)"
+      ]
+    },
+    {
+      "image": "training/dataset_v1/images/val/ext_road_rutting_yolo_0014.jpg",
+      "split": "val",
+      "gt": [
+        "rutting"
+      ],
+      "pred": [],
+      "severity_tier": null,
+      "primary_defect": null,
+      "detections": [],
+      "flags": [
+        "MISS: model silent on labeled defect(s)"
+      ]
+    },
+    {
+      "image": "training/dataset_v1/images/val/ext_road_rutting_yolo_0017.jpg",
+      "split": "val",
+      "gt": [
+        "rutting"
+      ],
+      "pred": [],
+      "severity_tier": null,
+      "primary_defect": null,
+      "detections": [],
+      "flags": [
+        "MISS: model silent on labeled defect(s)"
+      ]
+    }
+  ]
+}

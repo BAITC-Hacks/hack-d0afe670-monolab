@@ -74,7 +74,7 @@ class ContractInfo(BaseModel):
     trd_buy_id: Optional[str] = Field(default=None, max_length=64)
     contract_date: Optional[str] = Field(default=None, max_length=32)
     customer_name: Optional[str] = Field(default=None, max_length=500)
-    supplier_name: str = Field(..., min_length=1, max_length=500)
+    supplier_name: Optional[str] = Field(default=None, max_length=500)
     supplier_bin: Optional[str] = Field(default=None, max_length=20)
     warranty_ends: Optional[str] = Field(default=None, max_length=32)
     warranty_active: Optional[bool] = None
@@ -83,7 +83,11 @@ class ContractInfo(BaseModel):
 class ComplaintGenerateRequest(BaseModel):
     user_info: Optional[UserInfo] = None
     defect_info: DefectInfo
-    contract_info: ContractInfo
+    contract_info: Optional[ContractInfo] = None
+    complaint_mode: str = Field(
+        default="warranty",
+        description="warranty = claim vs contractor; general = akimat maintenance request",
+    )
 
 
 class WarrantyRoadSegment(BaseModel):

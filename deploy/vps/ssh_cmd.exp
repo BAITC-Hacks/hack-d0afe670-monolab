@@ -1,0 +1,12 @@
+#!/usr/bin/expect -f
+# Usage: ssh_cmd.exp user@host command words...
+set timeout 300
+set password $env(VPS_PASSWORD)
+set target [lindex $argv 0]
+set cmd [join [lrange $argv 1 end]]
+spawn ssh -o StrictHostKeyChecking=accept-new $target $cmd
+expect {
+    "password:" { send "$password\r"; exp_continue }
+    "Password:" { send "$password\r"; exp_continue }
+    eof
+}

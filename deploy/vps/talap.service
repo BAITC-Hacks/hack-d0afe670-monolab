@@ -1,0 +1,17 @@
+[Unit]
+Description=Talap GovTech hackathon app
+After=network.target docker.service
+Wants=docker.service
+
+[Service]
+Type=simple
+User=monolab
+WorkingDirectory=/home/monolab/talap/backend
+Environment=PORT=8016
+Environment=STATIC_DIR=/home/monolab/talap/frontend/dist
+ExecStart=/home/monolab/talap/deploy/vps/start.sh
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

@@ -1,10 +1,14 @@
 from __future__ import annotations
 
 import logging
+import os
 from contextlib import asynccontextmanager
+from pathlib import Path
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 
 from app.api.routes import complaint as complaint_routes
 from app.api.routes import cv as cv_routes
@@ -64,7 +68,42 @@ app.include_router(report_routes.router, prefix="/api/v1", tags=["Report"])
 app.include_router(complaint_routes.router, prefix="/api/v1", tags=["Complaint"])
 app.include_router(map_routes.router, prefix="/api/v1", tags=["Map"])
 
+_BACKEND_ROOT = Path(__file__).resolve().parents[1]
+_REPO_ROOT = _BACKEND_ROOT.parent
+_STATIC_DIR = Path(
+    os.getenv("STATIC_DIR", str(_REPO_ROOT / "frontend" / "dist"))
+).resolve()
 
-@app.get("/")
-async def root():
-    return {"service": "Talap", "docs": "/docs", "health": "/api/v1/health"}
+
+def _mount_frontend() -> None:
+    """Serve built React app from STATIC_DIR when present (production VPS deploy)."""
+    if not _STATIC_DIR.is_dir() or not (_STATIC_DIR / "index.html").is_file():
+        logger.info("Static frontend not found at %s — API-only mode", _STATIC_DIR)
+
+        @app.get("/")
+        async def root():
+            return {"service": "Talap", "docs": "/docs", "health": "/api/v1/health"}
+
+        return
+
+    assets_dir = _STATIC_DIR / "assets"
+    if assets_dir.is_dir():
+        app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
+
+    @app.get("/", include_in_schema=False)
+    async def spa_index():
+        return FileResponse(_STATIC_DIR / "index.html")
+
+    @app.get("/{full_path:path}", include_in_schema=False)
+    async def spa_fallback(full_path: str):
+        if full_path.startswith("api/") or full_path in ("docs", "openapi.json", "redoc"):
+            raise HTTPException(status_code=404)
+        candidate = _STATIC_DIR / full_path
+        if candidate.is_file():
+            return FileResponse(candidate)
+        return FileResponse(_STATIC_DIR / "index.html")
+
+    logger.info("Serving static frontend from %s", _STATIC_DIR)
+
+
+_mount_frontend()

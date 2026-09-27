@@ -1,0 +1,10 @@
+#!/usr/bin/expect -f
+# Usage: rsync.exp [rsync args...]
+set timeout 600
+set password $env(VPS_PASSWORD)
+eval spawn [linsert $argv 0 rsync -avz -e "ssh -o StrictHostKeyChecking=accept-new"]
+expect {
+    "password:" { send "$password\r"; exp_continue }
+    "Password:" { send "$password\r"; exp_continue }
+    eof
+}

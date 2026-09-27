@@ -1,0 +1,55 @@
+{
+  "timestamp": "2026-09-27T21:08:52.864933+00:00",
+  "run_tag": "eval",
+  "weights": "/Users/darkhan/Desktop/talap/backend/runs/detect/training/runs/single_stage/weights/best.pt",
+  "data_yaml": "/Users/darkhan/Desktop/talap/backend/training/dataset_v1/data.yaml",
+  "split": "val",
+  "seed": 42,
+  "imgsz": 640,
+  "device": "mps",
+  "conf": 0.25,
+  "overall": {
+    "map50": 0.48638677747592957,
+    "map50_95": 0.25471083309643544,
+    "precision": 0.6283495450217818,
+    "recall": 0.5659931388773067
+  },
+  "per_class": [
+    {
+      "class": "pothole",
+      "precision": 0.5895522388059702,
+      "recall": 0.6899563318777293,
+      "f1": 0.6358148893360162,
+      "ap50": 0.5827606926105784
+    },
+    {
+      "class": "crack_longitudinal",
+      "precision": 0.4911392405063291,
+      "recall": 0.4092827004219409,
+      "f1": 0.44649021864211735,
+      "ap50": 0.2763632603729451
+    },
+    {
+      "class": "crack_alligator",
+      "precision": 0.6876712328767123,
+      "recall": 0.6322418136020151,
+      "f1": 0.6587926509186351,
+      "ap50": 0.554943355311123
+    },
+    {
+      "class": "sunken_manhole",
+      "precision": 0.7222222222222222,
+      "recall": 0.8863636363636364,
+      "f1": 0.7959183673469388,
+      "ap50": 0.8460569477945028
+    },
+    {
+      "class": "rutting",
+      "precision": 0.6511627906976745,
+      "recall": 0.21212121212121213,
+      "f1": 0.31999999999999995,
+      "ap50": 0.1718096312904988
+    }
+  ],
+  "confusion_matrix": "/Users/darkhan/Desktop/talap/backend/training/eval_output/confusion_matrix.png"
+}

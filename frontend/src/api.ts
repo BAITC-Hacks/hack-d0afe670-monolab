@@ -44,6 +44,7 @@ export type ComplaintResponse = {
 };
 
 export type ComplaintPayload = {
+  complaint_mode?: "warranty" | "general";
   user_info?: { name?: string; iin?: string; phone?: string };
   defect_info: {
     address_description: string;
@@ -53,12 +54,12 @@ export type ComplaintPayload = {
     photo_urls?: string[];
     photo_base64?: string;
   };
-  contract_info: {
+  contract_info?: {
     contract_number?: string;
     trd_buy_id?: string;
     contract_date?: string;
     customer_name?: string;
-    supplier_name: string;
+    supplier_name?: string;
     supplier_bin?: string;
     warranty_ends?: string;
     warranty_active?: boolean | null;
@@ -67,8 +68,12 @@ export type ComplaintPayload = {
 
 const API_BASE = import.meta.env.VITE_API_URL ?? "";
 
-export async function matchDefect(lat: number, lng: number): Promise<MatchResponse> {
-  const url = `${API_BASE}/api/v1/match?lat=${lat}&lng=${lng}&defect_type=pothole`;
+export async function matchDefect(
+  lat: number,
+  lng: number,
+  defectType = "pothole"
+): Promise<MatchResponse> {
+  const url = `${API_BASE}/api/v1/match?lat=${encodeURIComponent(lat)}&lng=${encodeURIComponent(lng)}&defect_type=${encodeURIComponent(defectType)}`;
   const res = await fetch(url);
   if (!res.ok) {
     const body = await res.text();

@@ -130,10 +130,83 @@ def _contract_number(contract: ContractInfo) -> str:
     return "—"
 
 
+def generate_general_complaint(body: ComplaintGenerateRequest) -> ComplaintGenerateResponse:
+    """Standard akimat request when no warranty contract match exists."""
+    user_name, user_iin, user_phone = _placeholder_user(body.user_info)
+    defect = body.defect_info
+
+    address = (defect.address_description or "").strip() or "адрес не указан"
+    lat = defect.gps.lat
+    lng = defect.gps.lng
+    defect_label = _defect_description(defect)
+    severity_note = _severity_note(defect.severity)
+    target = _target_department(ContractInfo(supplier_name=None), address)
+    copy_to = _copy_line(address)
+
+    subject = "Заявление о дефекте дорожного покрытия"[:100]
+
+    lines: list[str] = [
+        f"В {target}",
+        "",
+    ]
+    if copy_to:
+        lines.extend([f"копия: {copy_to}", ""])
+    lines.extend(
+        [
+            "ЗАЯВЛЕНИЕ",
+            "",
+            "о принятии мер по содержанию и ремонту дорожного покрытия",
+            "",
+            f"От: {user_name}",
+            f"ИИН: {user_iin}",
+            f"Тел.: {user_phone}",
+            "",
+            (
+                f"Настоящим сообщаю, что по адресу: {address} "
+                f"(GPS-координаты: {lat:.6f}, {lng:.6f}) зафиксировано повреждение "
+                f"дорожного покрытия ({defect_label}), превышающее допустимые нормы "
+                "СТ РК 1418-2014 «Автомобильные дороги и улицы. Требования к "
+                "эксплуатационному состоянию» и СТ РК 2522-2014. "
+                f"{severity_note}"
+            ),
+            "",
+            (
+                "По данным системы государственных закупок на указанном участке "
+                "активный гарантийный договор подрядчика не найден. Прошу рассмотреть "
+                "обращение как заявку на содержание дороги в рамках полномочий местного "
+                "исполнительного органа."
+            ),
+            "",
+            "На основании ст. 99 АППК РК, ст. 12 и 24 Закона РК «Об автомобильных дорогах»,",
+            "",
+            "ПРОШУ:",
+            "",
+            "1. Организовать выездную проверку и зафиксировать указанный дефект.",
+            "2. Направить обращение в компетентное подразделение для планирования ремонта.",
+            "3. Предоставить мотивированный ответ в срок, установленный ст. 99 АППК РК.",
+            "",
+            _photo_appendix(defect.photo_urls),
+            "",
+            f"Дата: «___» __________ 20__ г.          Подпись: _______________ /{user_name}/",
+        ]
+    )
+
+    return ComplaintGenerateResponse(
+        subject=subject,
+        target_department=target,
+        document_body="\n".join(lines),
+    )
+
+
 def generate_complaint(body: ComplaintGenerateRequest) -> ComplaintGenerateResponse:
+    if body.complaint_mode == "general" or body.contract_info is None:
+        return generate_general_complaint(body)
+
     user_name, user_iin, user_phone = _placeholder_user(body.user_info)
     defect = body.defect_info
     contract = body.contract_info
+    if not (contract.supplier_name or "").strip():
+        return generate_general_complaint(body)
 
     address = (defect.address_description or "").strip() or "адрес не указан"
     lat = defect.gps.lat
@@ -145,7 +218,7 @@ def generate_complaint(body: ComplaintGenerateRequest) -> ComplaintGenerateRespo
 
     contract_no = _contract_number(contract)
     contract_date = _fmt_date(contract.contract_date)
-    supplier = (contract.supplier_name or "—").strip()
+    supplier = (contract.supplier_name or "—").strip()  # warranty path only
     supplier_bin = (contract.supplier_bin or "—").strip()
     warranty_line = _warranty_status(contract)
 

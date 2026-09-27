@@ -31,3 +31,18 @@ def test_generate_complaint_example_payload():
     assert "ст. 43" in result.document_body
     assert "10 (десяти) календарных дней" in result.document_body
     assert "43.238900, 76.889700" in result.document_body
+
+
+def test_generate_general_complaint_without_contract():
+    body = ComplaintGenerateRequest(
+        complaint_mode="general",
+        defect_info=DefectInfo(
+            address_description="г. Алматы, ул. Тестовая",
+            gps=GpsCoords(lat=43.24, lng=76.91),
+            defect_type="pothole",
+        ),
+    )
+    result = generate_complaint(body)
+
+    assert "активный гарантийный договор подрядчика не найден" in result.document_body
+    assert "010340004562" not in result.document_body

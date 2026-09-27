@@ -5,6 +5,7 @@
 ![YOLO26](https://img.shields.io/badge/YOLO26-Ultralytics-purple)
 ![License](https://img.shields.io/badge/License-MIT-green)
 ![Status](https://img.shields.io/badge/status-MVP-yellow)
+[![Live Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://monolab.govtech-kz.com)
 
 **Civic-tech solution for Kazakhstan:** Photo + GPS → AI defect detection → severity routing → warranty contract matching (when applicable) → complaint submission.
 
@@ -176,34 +177,60 @@ Open http://localhost:5173
 
 ## Model Training
 
-**Dataset sources:**
-- RDD2022 (Japan + India subset) — cracks, potholes
-- Saha et al. 2022 (Mendeley) — rutting
-- BITS Roboflow, deduped + hazard-only — manhole hazards
+**Current model:** YOLO26s fine-tuned on 7,023 train / 731 val images (dataset_v1)  
+**Performance:** val mAP50 **0.486** | manhole AP50 **0.846** (best class) | pothole AP50 **0.583**  
+**Weights:** `backend/runs/detect/training/runs/single_stage/weights/best.pt` (19MB, epoch 21/25)  
+**Confidence threshold:** 0.4 (production setting)
+
+### Dataset Sources
+- RDD2022 (Japan + India subset) — 4,124 potholes, 8,946 cracks
+- Saha et al. 2022 (Mendeley) — 645 rutting instances
+- BITS Roboflow, deduped + hazard-only — 206 manhole hazards
+
+### Training Commands
 
 ```bash
 cd backend
 pip install -r training/requirements.txt
 
-# Prepare dataset
+# Prepare dataset (merges sources, remaps classes, train/val/test split)
 python training/prepare_dataset.py \
-  --extra-dataset /path/to/datasets \
+  --extra-dataset /path/to/RDD2022_japan_india:alligator_crack=crack_alligator,pothole=pothole \
+  --extra-dataset /path/to/road_rutting_yolo:rutting=rutting \
+  --extra-dataset /path/to/roboflow_manhole_dedup:manhole=sunken_manhole \
   --output training/dataset_v1
 
-# Train YOLO26
+# Train YOLO26 (25 epochs, single-stage fine-tune, Apple MPS)
 python training/train.py \
   --data training/dataset_v1/data.yaml \
   --epochs 25 \
-  --device mps
+  --device mps \
+  --seed 42
 
-# Evaluate
+# Evaluate on val split
 python training/eval.py \
   --weights runs/detect/training/runs/single_stage/weights/best.pt \
   --data training/dataset_v1/data.yaml \
   --split val
 ```
 
-See `backend/training/RESULTS_V1.md` for training details and `SUBMISSION.md` for validation approach.
+### Results Summary (v1)
+
+| Class | Precision | Recall | AP50 | Status |
+|-------|-----------|--------|------|--------|
+| **sunken_manhole** | 0.72 | 0.89 | **0.846** | ✅ Demo-ready (5/5 sanity at conf 0.4) |
+| **pothole** | 0.59 | 0.69 | **0.583** | ✅ Demo-ready (7/7 sanity) |
+| **crack_alligator** | 0.69 | 0.63 | **0.555** | ✅ Good |
+| crack_longitudinal | 0.49 | 0.41 | 0.276 | ⚠️ Confuses with alligator |
+| rutting | 0.65 | 0.21 | 0.172 | ⚠️ Weak (2/5 sanity) — needs more data |
+
+**Known limitations:**  
+- Training data is Japan/India road photos — no KZ-specific images yet; domain gap expected
+- Phone-screen photos confuse the model (webcam of phone → manhole/pothole mislabeling)
+- Rutting detection unreliable (21% recall) — avoid demoing on rutting defects
+
+📄 **Full report:** [`backend/training/RESULTS_V1.md`](backend/training/RESULTS_V1.md)  
+📋 **Validation logic:** [`SUBMISSION.md`](SUBMISSION.md)
 
 ---
 
@@ -229,13 +256,17 @@ VITE_YANDEX_MAPS_API_KEY=your_key_here
 
 ---
 
-## Deployment (Planned)
+## Live Demo
 
-| Component | Platform |
-|-----------|----------|
-| Frontend | Vercel (static) |
-| Backend + DB | Railway / Render |
-| CV GPU inference | Modal |
+🚀 **Try it now:** [monolab.govtech-kz.com](https://monolab.govtech-kz.com)
+
+| Component | Platform | Status |
+|-----------|----------|--------|
+| Full Stack | govtech-kz.com | ✅ Live |
+| CV Inference | Local (M3 Pro MPS) | Embedded in backend |
+| Database | PostgreSQL | Active |
+
+**GitHub:** [github.com/BAITC-Hacks/hack-d0afe670-monolab](https://github.com/BAITC-Hacks/hack-d0afe670-monolab)
 
 ---
 
