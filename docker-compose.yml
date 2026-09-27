@@ -1,0 +1,14 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: talap
+      POSTGRES_PASSWORD: talap
+      POSTGRES_DB: talap
+    ports:
+      - "5433:5432"
+    volumes:
+      - talap_pg:/var/lib/postgresql/data
+
+volumes:
+  talap_pg:

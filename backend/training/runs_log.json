@@ -1,0 +1,25 @@
+[
+  {
+    "timestamp": "2026-09-27T13:57:30.819645+00:00",
+    "mode": "two_stage",
+    "epochs": 5,
+    "seed": 42,
+    "freeze": true,
+    "data_yaml": "/Users/darkhan/Desktop/talap/backend/training/dataset/data.yaml",
+    "kz_data_yaml": null,
+    "device": "mps",
+    "imgsz": 640,
+    "batch": 8,
+    "weights_out": "/Users/darkhan/Desktop/talap/backend/training/weights/best.pt",
+    "metrics": {
+      "stage1": {
+        "map50": 0.2136436834975847,
+        "map50_95": 0.08346525187829683
+      },
+      "stage2": {
+        "map50": 0.4731365322467935,
+        "map50_95": 0.21089885266905617
+      }
+    }
+  }
+]
