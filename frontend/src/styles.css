@@ -203,6 +203,11 @@ body {
   background: #ef4444;
 }
 
+.dot-warranty {
+  background: #2563eb;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 3px #93c5fd;
+}
+
 @media (max-width: 900px) {
   .app {
     height: 100dvh;
@@ -882,19 +887,6 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-}
-
-.demo-badge {
-  font-size: 0.65rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  padding: 0.35rem 0.65rem;
-  border-radius: 999px;
-  background: var(--warn-bg);
-  color: var(--warn);
-  border: 1px solid #fde68a;
-  flex-shrink: 0;
 }
 
 .flow-progress {
@@ -1817,6 +1809,534 @@ body {
   margin: 0 0 0.5rem;
   font-size: 1.1rem;
   color: var(--text);
+}
+
+.complaint-textarea {
+  width: 100%;
+  margin: 1rem 0;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  font: inherit;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.track-timeline {
+  list-style: none;
+  margin: 1.25rem 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.track-step {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  opacity: 0.45;
+}
+
+.track-step-done,
+.track-step-active {
+  opacity: 1;
+}
+
+.track-step-dot {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-soft);
+  border: 2px solid var(--border);
+  font-size: 0.75rem;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.track-step-done .track-step-dot,
+.track-step-active .track-step-dot {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: #fff;
+}
+
+.track-step-time {
+  margin: 0.2rem 0 0;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.specialist-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.specialist-header-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.specialist-live-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  background: #ecfdf5;
+  color: #047857;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.specialist-live-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: #10b981;
+  animation: specialist-pulse 1.6s ease-in-out infinite;
+}
+
+.specialist-urgent-pill {
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  background: #fee2e2;
+  color: #991b1b;
+  font-size: 0.78rem;
+  font-weight: 700;
+  animation: specialist-urgent-glow 2s ease-in-out infinite;
+}
+
+@keyframes specialist-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.45; transform: scale(0.85); }
+}
+
+@keyframes specialist-urgent-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+  50% { box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.15); }
+}
+
+.specialist-grid {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+.specialist-list {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.75rem;
+  background: var(--surface-soft);
+  max-height: 80vh;
+  overflow: auto;
+}
+
+.specialist-inbox-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.specialist-inbox-head h2 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.specialist-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.specialist-filter-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.specialist-filter-btn {
+  border: 1px solid var(--border);
+  background: #fff;
+  border-radius: 8px;
+  padding: 0.3rem 0.55rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--muted);
+}
+
+.specialist-filter-btn-active {
+  border-color: var(--blue);
+  color: var(--blue);
+  background: #eff6ff;
+}
+
+.specialist-sort-select {
+  width: 100%;
+  padding: 0.35rem 0.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  font-size: 0.78rem;
+  font-weight: 600;
+  background: #fff;
+}
+
+.specialist-inbox-count {
+  min-width: 1.5rem;
+  height: 1.5rem;
+  padding: 0 0.4rem;
+  border-radius: 999px;
+  background: var(--blue);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.specialist-empty,
+.specialist-loading {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: 0.5rem 0;
+}
+
+.specialist-list-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.3rem;
+  width: 100%;
+  text-align: left;
+  padding: 0.7rem 0.75rem;
+  margin-bottom: 0.5rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #fff;
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+}
+
+.specialist-list-item:hover {
+  border-color: #cbd5e1;
+  transform: translateY(-1px);
+}
+
+.specialist-list-item-active {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+.specialist-list-item-pending {
+  border-left: 3px solid #3b82f6;
+}
+
+.specialist-list-item-urgent {
+  border-left: 3px solid #ef4444;
+  background: linear-gradient(90deg, #fff5f5 0%, #fff 40%);
+}
+
+.specialist-list-item-repeat {
+  border-left: 3px solid #f59e0b;
+}
+
+.specialist-list-item-mass {
+  border-left: 3px solid #dc2626;
+  background: linear-gradient(90deg, #fef2f2 0%, #fff 45%);
+}
+
+.specialist-reports-badge {
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: #b45309;
+  background: #fef3c7;
+  padding: 0.12rem 0.45rem;
+  border-radius: 6px;
+}
+
+.specialist-reports-badge-mass {
+  color: #991b1b;
+  background: #fee2e2;
+}
+
+.specialist-mass-alert {
+  margin: 0.5rem 0 0.75rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 8px;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  font-size: 0.88rem;
+}
+
+.specialist-mass-alert-high {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #991b1b;
+}
+
+.specialist-related-ids {
+  margin: 0.35rem 0 0;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.specialist-list-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.specialist-list-defect {
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.specialist-list-meta {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.status-chip {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.15rem 0.45rem;
+  border-radius: 6px;
+  background: #e2e8f0;
+  color: #334155;
+  white-space: nowrap;
+}
+
+.status-chip-lg {
+  font-size: 0.78rem;
+  padding: 0.25rem 0.6rem;
+}
+
+.status-REGISTERED,
+.status-IN_REVIEW {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.status-FORWARDED {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-RESOLVED {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status-REJECTED {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.specialist-detail {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  background: #fff;
+  min-height: 420px;
+}
+
+.specialist-detail-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.specialist-detail-head h2 {
+  margin: 0 0 0.2rem;
+}
+
+.specialist-detail-time {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.specialist-detail-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 280px;
+}
+
+.specialist-photo {
+  width: 100%;
+  max-height: 320px;
+  object-fit: contain;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  margin: 0.75rem 0;
+}
+
+.specialist-facts {
+  margin: 0.75rem 0;
+  padding-left: 1.1rem;
+}
+
+.warranty-block {
+  margin: 1rem 0;
+  padding: 0.85rem;
+  border-radius: 10px;
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+}
+
+.general-maint-note {
+  padding: 0.65rem 0.85rem;
+  border-radius: 8px;
+  background: var(--surface-soft);
+  color: var(--muted);
+}
+
+.ai-hint {
+  font-size: 0.82rem;
+  color: var(--warn);
+  font-weight: 600;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  margin: 0.5rem 0 0.75rem;
+}
+
+.specialist-key-input {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  margin: 0.5rem 0;
+}
+
+.specialist-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.specialist-list-item-new {
+  animation: specialist-new-in 0.6s ease-out 2;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.35);
+}
+
+.specialist-new-badge {
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: #047857;
+  background: #d1fae5;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+}
+
+@keyframes specialist-new-in {
+  0%, 100% { background: #fff; }
+  50% { background: #ecfdf5; }
+}
+
+.specialist-pdf-block {
+  margin: 1rem 0;
+  padding: 0.85rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #f8fafc;
+}
+
+.specialist-pdf-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+
+.specialist-pdf-head h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.specialist-pdf-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.specialist-pdf-actions .cta {
+  width: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  text-decoration: none;
+}
+
+.cta-small {
+  padding: 0.45rem 0.75rem;
+  font-size: 0.82rem;
+}
+
+.specialist-pdf-subject {
+  margin: 0 0 0.5rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.specialist-pdf-frame {
+  width: 100%;
+  height: 420px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.tier-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.15rem 0.45rem;
+  border-radius: 6px;
+  background: #e2e8f0;
+}
+
+.tier-HAZARD_FASTTRACK {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.tier-WARRANTY_CLAIM {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.tier-GENERAL_MAINTENANCE_REQUEST {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+@media (max-width: 767px) {
+  .specialist-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (min-width: 768px) {

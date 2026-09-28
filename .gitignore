@@ -22,3 +22,6 @@ backend/data/
 
 # Training outputs
 backend/training/sanity_output/
+
+# Citizen complaint uploads (local dev)
+backend/uploads/

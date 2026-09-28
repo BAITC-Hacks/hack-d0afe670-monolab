@@ -93,6 +93,8 @@ async def _query_road_contracts(session: AsyncSession, geo: GeoLocation) -> list
     stmt = select(RoadContract)
     if MATCH_DATA_SOURCE == "tenderai":
         stmt = stmt.where(RoadContract.source == "tenderai")
+    elif MATCH_DATA_SOURCE == "goszakup":
+        stmt = stmt.where(RoadContract.source == "goszakup")
     if street_filter is not None:
         stmt = stmt.where(street_filter)
     if city_filter is not None:
@@ -171,12 +173,15 @@ async def _query_by_map_proximity(
             continue
         city, street = parts[1], parts[2]
         stmt = select(RoadContract).where(
-            RoadContract.source == "tenderai",
             or_(
                 RoadContract.street_hint.ilike(f"%{street}%"),
                 RoadContract.title.ilike(f"%{street}%"),
             ),
         )
+        if MATCH_DATA_SOURCE == "tenderai":
+            stmt = stmt.where(RoadContract.source == "tenderai")
+        elif MATCH_DATA_SOURCE == "goszakup":
+            stmt = stmt.where(RoadContract.source == "goszakup")
         if city:
             stmt = stmt.where(
                 or_(

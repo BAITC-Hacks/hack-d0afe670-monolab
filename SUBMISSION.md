@@ -126,6 +126,30 @@ If manhole detection is weak at 0.4, lowering to 0.25–0.3 raises recall but in
 
 ---
 
+## Gateway simulation (Open311-shaped)
+
+Talap stores citizen complaints in an Open311 GeoReport v2-inspired schema (`complaints` + `complaint_events` tables).
+
+| Open311 field | Talap field |
+|---------------|-------------|
+| `service_request_id` | `service_request_id` (`TLP-YYYY-NNNNNN`) |
+| `status` | `SUBMITTED` → `REGISTERED` → `IN_REVIEW` → `FORWARDED` → `RESOLVED` |
+| `service_code` / `service_name` | YOLO defect class + Russian label |
+| `lat` / `long` | GPS from citizen device |
+| `address` / `description` | Reverse-geocoded address + editable text |
+| `requested_datetime` | Submission timestamp |
+| `agency_responsible` | Routed by tier/defect mapping (simulated) |
+
+**What is real:** photo CV inference, GPS geocoding, warranty contract lookup (stored internally, not shown to citizens).
+
+**What is simulated:** Smart Bridge registration, response deadline enforcement, inter-agency forwarding. All gateway responses include `"simulated": true`.
+
+**Citizen vs specialist views:** citizens see registration number + status timeline only. Specialists see warranty block (contractor BIN, warranty end, contract #) when `WARRANTY_CLAIM` tier applies.
+
+Replace `MockSmartBridgeGateway` (`GOV_GATEWAY=mock`) with a real adapter when API access is granted.
+
+---
+
 ## Quick reference commands
 
 ```bash

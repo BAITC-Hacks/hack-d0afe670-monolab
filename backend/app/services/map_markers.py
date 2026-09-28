@@ -116,6 +116,8 @@ async def build_warranty_markers(limit_geocode: int = 80) -> WarrantyMapMarkersR
         stmt = select(RoadContract)
         if MATCH_DATA_SOURCE == "tenderai":
             stmt = stmt.where(RoadContract.source == "tenderai")
+        elif MATCH_DATA_SOURCE == "goszakup":
+            stmt = stmt.where(RoadContract.source == "goszakup")
         stmt = stmt.where(
             or_(
                 RoadContract.city.ilike("%алмат%"),
@@ -176,6 +178,12 @@ async def build_warranty_markers(limit_geocode: int = 80) -> WarrantyMapMarkersR
             if not polyline:
                 continue
 
+            if cached and cached.lat and cached.lng:
+                center_lat, center_lng = cached.lat, cached.lng
+            else:
+                mid = polyline[len(polyline) // 2]
+                center_lat, center_lng = mid[0], mid[1]
+
             segments.append(
                 WarrantyRoadSegment(
                     id=query_key,
@@ -185,6 +193,8 @@ async def build_warranty_markers(limit_geocode: int = 80) -> WarrantyMapMarkersR
                     contract_count=bucket["count"],
                     warranty_active=bucket["active_count"] > 0,
                     coordinates=[[lat, lng] for lat, lng in polyline],
+                    center_lat=center_lat,
+                    center_lng=center_lng,
                 )
             )
 

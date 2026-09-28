@@ -51,6 +51,35 @@ This is the same shape as international civic-tech tools (FixMyStreet, iKomek) �
 
 ---
 
+## User Experience
+
+### Citizen Flow (4 Steps)
+
+**Streamlined from 6 to 4 steps** — warranty info is hidden from citizens and only shown in the specialist dashboard:
+
+1. **📷 Фото** — Take photo (direct camera or upload)
+2. **🔍 Проверка** — AI analyzes defect (YOLO detection + severity classification)
+3. **📍 Адрес** — Confirm GPS location on map (auto-geocoded address)
+4. **📤 Подача** — Review and submit complaint
+
+Citizens receive a tracking number (`TLP-2026-NNNNNN`) and can monitor status at `/track/:reg`.
+
+### Admin Panel
+
+**Specialist dashboard** at `/admin` (or `/specialist`) — secured with `X-Specialist-Key` header:
+
+- **📥 Inbox with filters:**
+  - Status (pending / in_review / approved / rejected / resolved)
+  - Urgency (all / 2+ reports / 5+ reports at same location)
+  - Date/urgency sorting
+- **🗺️ Clustering:** Groups complaints within ~120m, shows related reports count
+- **📄 PDF export:** One-click complaint document download
+- **⚡ Real-time polling:** Auto-refreshes inbox every 4 seconds
+- **⚖️ Warranty display:** Shows contractor + contract ID when available (hidden from citizen UI)
+- **✅ Workflow:** Approve → Reject → Resolve with timestamps
+
+---
+
 ## Architecture
 
 ```mermaid
@@ -164,14 +193,43 @@ Open http://localhost:5173
 
 ## API Endpoints
 
+### Public (Citizen)
+
 | Method | Path | Description |
 |--------|------|-------------|
 | `GET` | `/api/v1/health` | Service status + contract count |
-| `GET` | `/api/v1/match` | GPS → warranty contract match |
 | `POST` | `/api/v1/cv/detect` | Photo → AI defect detection |
-| `POST` | `/api/v1/report` | Photo + GPS → full flow (CV + match + 3-tier severity routing) |
-| `POST` | `/api/v1/complaint/generate` | Generate complaint document (legal claim or general request) + PDF |
-| `GET` | `/api/v1/map/markers` | Road warranty polylines (Almaty/Astana) |
+| `POST` | `/api/v1/complaints` | Submit complaint (photo + GPS) → registration number |
+| `GET` | `/api/v1/complaints/{reg_number}` | Track complaint status (warranty fields hidden) |
+| `GET` | `/api/v1/map/markers` | Warranty road markers (dots only, for map overlay) |
+
+### Admin (Specialist Dashboard)
+
+Requires `X-Specialist-Key: your-key-here` header (set via `SPECIALIST_API_KEY` in `backend/.env`).
+
+| Method | Path | Description |
+|--------|------|-------------|
+| `GET` | `/api/v1/specialist/complaints` | Inbox with filters (`status`, `min_reports`, `sort=urgency\|date`) |
+| `GET` | `/api/v1/specialist/complaints/{id}` | Full complaint detail (includes warranty, clustering, related IDs) |
+| `GET` | `/api/v1/specialist/complaints/{id}/pdf` | Download complaint PDF |
+| `PATCH` | `/api/v1/specialist/complaints/{id}` | Update status (approve / reject / resolve) |
+
+### Internal (Legacy/Testing)
+
+| Method | Path | Description |
+|--------|------|-------------|
+| `GET` | `/api/v1/match` | GPS → warranty contract match (direct query) |
+| `POST` | `/api/v1/report` | Photo + GPS → full CV + match + routing (legacy endpoint) |
+| `POST` | `/api/v1/complaint/generate` | Generate complaint doc (PDF) from CV + match results |
+
+### Gateway Mode
+
+Set `GOV_GATEWAY=internal` (default) or `GOV_GATEWAY=mock` in `backend/.env`:
+
+- **`internal`:** Uses internal Postgres storage, no `simulated: true` flags
+- **`mock`:** Simulates Smart Bridge gateway (for testing without real gov infra)
+
+Production would replace the gateway layer in `app/services/gov_gateway.py` with a real API adapter to Kazakhstan's national service bus.
 
 ---
 
@@ -252,19 +310,25 @@ CORS_ORIGINS=http://localhost:5173
 VITE_YANDEX_MAPS_API_KEY=your_key_here
 ```
 
+### Admin Panel Access
+
+Set `SPECIALIST_API_KEY` in `backend/.env` (any secret string). Access the admin panel at `/admin` or `/specialist` and enter this key at the login screen.
+
 **Note:** Create `.env` files from `.env.example` — real `.env` files are gitignored. Never commit API keys, VPS credentials, or S3 secrets.
 
 ---
 
 ## Live Demo
 
-🚀 **Try it now:** [monolab.govtech-kz.com](https://monolab.govtech-kz.com)
+🚀 **Citizen app:** [monolab.govtech-kz.com](https://monolab.govtech-kz.com)  
+🔐 **Admin panel:** [monolab.govtech-kz.com/admin](https://monolab.govtech-kz.com/admin) — login with `SPECIALIST_API_KEY` from production `.env`
 
 | Component | Platform | Status |
 |-----------|----------|--------|
-| Full Stack | govtech-kz.com | ✅ Live |
-| CV Inference | Local (M3 Pro MPS) | Embedded in backend |
-| Database | PostgreSQL | Active |
+| Full Stack | govtech-kz.com:8016 | ✅ Live |
+| CV Inference | VPS (CPU PyTorch) | ✅ Embedded in backend |
+| Database | PostgreSQL (Docker) | ✅ 549 contracts indexed |
+| Admin Dashboard | React (real-time polling) | ✅ Clustering + PDF export |
 
 **GitHub:** [github.com/BAITC-Hacks/hack-d0afe670-monolab](https://github.com/BAITC-Hacks/hack-d0afe670-monolab)
 

@@ -2,6 +2,8 @@
 
 **Live site:** https://monolab.govtech-kz.com (port **8016**)
 
+**Admin panel:** https://monolab.govtech-kz.com/admin — login with `SPECIALIST_API_KEY` from `backend/.env` on the VPS.
+
 ## Quick redeploy from laptop
 
 ```bash

@@ -12,8 +12,8 @@ load_dotenv()
 GOSZAKUP_TOKEN: str = os.getenv("GOSZAKUP_TOKEN", "").strip()
 GOSZAKUP_GRAPHQL_URL: str = "https://ows.goszakup.gov.kz/v3/graphql"
 
-# Match uses TenderAI-imported contracts only. Goszakup live API is opt-in.
-MATCH_DATA_SOURCE: str = os.getenv("MATCH_DATA_SOURCE", "tenderai").strip().lower()
+# Contract DB source for warranty match: all | tenderai | goszakup
+MATCH_DATA_SOURCE: str = os.getenv("MATCH_DATA_SOURCE", "all").strip().lower()
 GOSZAKUP_LIVE_ENRICH_ENABLED: bool = os.getenv(
     "GOSZAKUP_LIVE_ENRICH_ENABLED", "0"
 ).strip().lower() in ("1", "true", "yes")
@@ -66,3 +66,9 @@ CV_ALLOWED_CONTENT_TYPES: frozenset[str] = frozenset({"image/jpeg", "image/jpg",
 USE_MODAL: bool = os.getenv("USE_MODAL", "").lower() in ("1", "true", "yes", "on")
 MODAL_CV_APP_NAME: str = os.getenv("MODAL_CV_APP_NAME", "talap-cv")
 MODAL_CV_FUNCTION_NAME: str = os.getenv("MODAL_CV_FUNCTION_NAME", "detect")
+
+# Complaint routing gateway: internal (Talap DB) | smart_bridge (future national API).
+GOV_GATEWAY: str = os.getenv("GOV_GATEWAY", "internal").strip().lower()
+
+# Specialist API auth (shared secret header X-Specialist-Key).
+SPECIALIST_API_KEY: str = os.getenv("SPECIALIST_API_KEY", "").strip()

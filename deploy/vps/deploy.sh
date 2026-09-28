@@ -36,9 +36,14 @@ _rsync() {
 echo "==> [1/6] Build frontend"
 YANDEX_KEY="${YANDEX_MAPS_API_KEY:-}"
 GOSZAKUP_TOKEN_VAL=""
+SPECIALIST_KEY_VAL=""
 if [[ -f backend/.env ]]; then
   [[ -z "$YANDEX_KEY" ]] && YANDEX_KEY=$(grep -E '^YANDEX_MAPS_API_KEY=' backend/.env | cut -d= -f2- || true)
   GOSZAKUP_TOKEN_VAL=$(grep -E '^GOSZAKUP_TOKEN=' backend/.env | cut -d= -f2- || true)
+  SPECIALIST_KEY_VAL=$(grep -E '^SPECIALIST_API_KEY=' backend/.env | cut -d= -f2- || true)
+fi
+if [[ -z "$SPECIALIST_KEY_VAL" ]]; then
+  echo "WARN: SPECIALIST_API_KEY missing in backend/.env — admin panel login will fail on VPS"
 fi
 cat > frontend/.env.production.local <<EOF
 VITE_YANDEX_MAPS_API_KEY=${YANDEX_KEY}
@@ -73,6 +78,8 @@ echo "==> [4/6] Sync code to VPS"
 _rsync --delete \
   --exclude '.git' \
   --exclude 'node_modules' \
+  --exclude '__pycache__' \
+  --exclude '.pytest_cache' \
   --exclude 'backend/.venv' \
   --exclude 'backend/runs' \
   --exclude 'backend/training/dataset' \
@@ -108,6 +115,9 @@ GOSZAKUP_TOKEN=${GOSZAKUP_TOKEN_VAL}
 CV_MODEL_PATH=training/weights/best.pt
 CV_CONFIDENCE_THRESHOLD=0.4
 USE_MODAL=false
+GOV_GATEWAY=internal
+MATCH_DATA_SOURCE=all
+SPECIALIST_API_KEY=${SPECIALIST_KEY_VAL}
 NOMINATIM_USER_AGENT=Talap/1.0 (monolab.govtech-kz.com)
 EOF
 _rsync "$ENV_TMP" "${SSH_TARGET}:${VPS_DIR}/backend/.env"
@@ -120,4 +130,5 @@ _ssh "pkill -f 'uvicorn app.main:app' 2>/dev/null || true; sleep 1; nohup ${VPS_
 
 echo ""
 echo "Deploy complete: https://monolab.govtech-kz.com"
+echo "Admin panel:  https://monolab.govtech-kz.com/admin"
 echo "Logs: ssh ${SSH_TARGET} 'tail -f ~/talap/talap.log'"

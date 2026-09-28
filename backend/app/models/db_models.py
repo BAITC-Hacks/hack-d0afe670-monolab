@@ -2,8 +2,9 @@ from __future__ import annotations
 
 from datetime import date, datetime, timezone
 
-from sqlalchemy import BigInteger, Date, DateTime, Float, Integer, String, Text, func
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import BigInteger, Date, DateTime, Float, ForeignKey, Integer, String, Text, func
+from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db import Base
 
@@ -57,3 +58,68 @@ class StreetGeocache(Base):
         server_default=func.now(),
         nullable=False,
     )
+
+
+class Complaint(Base):
+    """Open311 GeoReport v2-shaped citizen complaint."""
+
+    __tablename__ = "complaints"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    service_request_id: Mapped[str] = mapped_column(String(32), unique=True, index=True)
+    status: Mapped[str] = mapped_column(String(32), index=True, nullable=False)
+    service_code: Mapped[str] = mapped_column(String(64), nullable=False)
+    service_name: Mapped[str] = mapped_column(String(256), nullable=False)
+    lat: Mapped[float] = mapped_column(Float, nullable=False)
+    long: Mapped[float] = mapped_column(Float, nullable=False)
+    address: Mapped[str] = mapped_column(Text, nullable=False)
+    description: Mapped[str] = mapped_column(Text, nullable=False)
+    media_url: Mapped[str | None] = mapped_column(String(512), nullable=True)
+    requested_datetime: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    updated_datetime: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    response_deadline: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True), nullable=True
+    )
+    agency_responsible: Mapped[str | None] = mapped_column(Text, nullable=True)
+    tier: Mapped[str] = mapped_column(String(64), index=True, nullable=False)
+    cv_confidence: Mapped[float | None] = mapped_column(Float, nullable=True)
+    cv_bbox: Mapped[dict | None] = mapped_column(JSONB, nullable=True)
+    reporter_token: Mapped[str] = mapped_column(String(64), index=True, nullable=False)
+    contract_id: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    contractor_name: Mapped[str | None] = mapped_column(Text, nullable=True)
+    contractor_bin: Mapped[str | None] = mapped_column(String(20), nullable=True)
+    warranty_end: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    customer_name: Mapped[str | None] = mapped_column(Text, nullable=True)
+    trd_buy_id: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    generated_claim_subject: Mapped[str | None] = mapped_column(String(256), nullable=True)
+    generated_claim_body: Mapped[str | None] = mapped_column(Text, nullable=True)
+
+    events: Mapped[list["ComplaintEvent"]] = relationship(
+        back_populates="complaint",
+        cascade="all, delete-orphan",
+    )
+
+
+class ComplaintEvent(Base):
+    """Audit log for complaint status changes."""
+
+    __tablename__ = "complaint_events"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    complaint_id: Mapped[int] = mapped_column(
+        ForeignKey("complaints.id", ondelete="CASCADE"),
+        index=True,
+        nullable=False,
+    )
+    from_status: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    to_status: Mapped[str] = mapped_column(String(32), nullable=False)
+    actor: Mapped[str] = mapped_column(String(32), nullable=False)
+    note: Mapped[str | None] = mapped_column(Text, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=_utcnow,
+        server_default=func.now(),
+        nullable=False,
+    )
+
+    complaint: Mapped[Complaint] = relationship(back_populates="events")

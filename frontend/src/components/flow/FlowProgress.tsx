@@ -1,20 +1,14 @@
-const STEPS = [
-  "Фото",
-  "AI",
-  "Адрес",
-  "Подрядчик",
-  "Подача",
-  "Готово",
-] as const;
-
 type Props = {
   current: number;
+  steps?: readonly string[];
 };
 
-export default function FlowProgress({ current }: Props) {
+const DEFAULT_STEPS = ["Фото", "Проверка", "Адрес", "Подача"] as const;
+
+export default function FlowProgress({ current, steps = DEFAULT_STEPS }: Props) {
   return (
     <nav className="flow-progress" aria-label="Шаги подачи жалобы">
-      {STEPS.map((label, index) => {
+      {steps.map((label, index) => {
         const step = index + 1;
         const done = step < current;
         const active = step === current;

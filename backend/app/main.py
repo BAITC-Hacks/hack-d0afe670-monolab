@@ -11,11 +11,13 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
 from app.api.routes import complaint as complaint_routes
+from app.api.routes import complaints as complaints_routes
 from app.api.routes import cv as cv_routes
 from app.api.routes import health as health_routes
 from app.api.routes import map as map_routes
 from app.api.routes import match as match_routes
 from app.api.routes import report as report_routes
+from app.api.routes import specialist as specialist_routes
 from app.config import CORS_ORIGINS
 from app.db import init_db
 from app.services.cv_detector import get_cv_detector
@@ -66,6 +68,8 @@ app.include_router(match_routes.router, prefix="/api/v1", tags=["Match"])
 app.include_router(cv_routes.router, prefix="/api/v1", tags=["Computer vision"])
 app.include_router(report_routes.router, prefix="/api/v1", tags=["Report"])
 app.include_router(complaint_routes.router, prefix="/api/v1", tags=["Complaint"])
+app.include_router(complaints_routes.router, prefix="/api/v1", tags=["Complaints"])
+app.include_router(specialist_routes.router, prefix="/api/v1", tags=["Specialist"])
 app.include_router(map_routes.router, prefix="/api/v1", tags=["Map"])
 
 _BACKEND_ROOT = Path(__file__).resolve().parents[1]

@@ -11,6 +11,10 @@ S3_BUCKET="${S3_BUCKET:-s3://govtech-monolab}"
 
 echo "==> Talap VPS setup (port $PORT)"
 
+# Free space from failed pip installs (4GB user quota)
+rm -rf /tmp/pip-unpack-* /tmp/tmp* 2>/dev/null || true
+find "$TALAP_ROOT" -name '__pycache__' -type d -exec rm -rf {} + 2>/dev/null || true
+
 # Rootless Docker (hackathon VPS)
 if ! docker ps &>/dev/null; then
   systemctl --user start docker 2>/dev/null || true

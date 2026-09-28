@@ -98,6 +98,8 @@ class WarrantyRoadSegment(BaseModel):
     contract_count: int
     warranty_active: bool
     coordinates: list[list[float]]  # [[lat, lng], ...] polyline along road
+    center_lat: float
+    center_lng: float
 
 
 class WarrantyMapMarkersResponse(BaseModel):

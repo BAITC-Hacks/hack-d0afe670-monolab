@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { CVDetection, CVDetectionResponse } from "../../api";
-import { defectLabel } from "../../mock/demoFlow";
+import { defectLabel } from "../../labels";
 
 type Props = {
   photoUrl: string;
