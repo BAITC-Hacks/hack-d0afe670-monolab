@@ -301,7 +301,9 @@ DATABASE_URL=postgresql://talap:talap@localhost:5433/talap
 GOSZAKUP_TOKEN=your_token_here
 YANDEX_MAPS_API_KEY=your_key_here
 ROBOFLOW_API_KEY=your_key_here
+SPECIALIST_API_KEY=your_secret_here
 CORS_ORIGINS=http://localhost:5173
+GOV_GATEWAY=internal
 ```
 
 ### Frontend (`frontend/.env`)
